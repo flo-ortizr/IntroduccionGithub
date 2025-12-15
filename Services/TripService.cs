@@ -40,22 +40,82 @@ namespace ProyectoFinalTecWeb.Services
                 Driver = driver
             };
 
-            // Actualizar colecciones
+            // CORREGIDO: Agregar el trip a las colecciones
             passenger.Trips.Add(trip);
             driver.Trips.Add(trip);
 
+            // Guardar los cambios (esto actualizará todas las entidades)
             await _trips.AddAsync(trip);
             await _trips.SaveChangesAsync();
 
             return trip.Id;
         }
 
-        public async Task<IEnumerable<Trip>> GetAllAsync()
+        public async Task<IEnumerable<TripDto>> GetAllAsync()
+        {
+            var trips = await _trips.GetAllAsync();
+
+            return trips.Select(t => new TripDto
+            {
+                Id = t.Id,
+                Origin = t.Origin,
+                Destiny = t.Destiny,
+                Price = t.Price,
+                StartDate = t.StartDate,
+                EndDate = t.EndDate,
+                Passenger = new PassengerInfoDto
+                {
+                    Id = t.Passenger.Id,
+                    Name = t.Passenger.Name,
+                    Email = t.Passenger.Email,
+                    Phone = t.Passenger.Phone
+                },
+                Driver = new DriverInfoDto
+                {
+                    Id = t.Driver.Id,
+                    Name = t.Driver.Name,
+                    Email = t.Driver.Email,
+                    Licence = t.Driver.Licence
+                }
+            });
+        }
+
+        public async Task<IEnumerable<Trip>> GetAllAsyncNormal()
         {
             return await _trips.GetAllAsync();
         }
 
-        public async Task<Trip?> GetByIdAsync(Guid id)
+        public async Task<TripDto?> GetByIdAsync(Guid id)
+        {
+            var trip = await _trips.GetTripAsync(id);
+            if (trip == null) return null;
+
+            return new TripDto
+            {
+                Id = trip.Id,
+                Origin = trip.Origin,
+                Destiny = trip.Destiny,
+                Price = trip.Price,
+                StartDate = trip.StartDate,
+                EndDate = trip.EndDate,
+                Passenger = new PassengerInfoDto
+                {
+                    Id = trip.Passenger.Id,
+                    Name = trip.Passenger.Name,
+                    Email = trip.Passenger.Email,
+                    Phone = trip.Passenger.Phone
+                },
+                Driver = new DriverInfoDto
+                {
+                    Id = trip.Driver.Id,
+                    Name = trip.Driver.Name,
+                    Email = trip.Driver.Email,
+                    Licence = trip.Driver.Licence
+                }
+            };
+        }
+
+        public async Task<Trip?> GetByIdAsyncNormal(Guid id)
         {
             return await _trips.GetTripAsync(id);
         }

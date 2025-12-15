@@ -46,7 +46,10 @@ namespace ProyectoFinalTecWeb.Repositories
                 Drivers = v.Drivers.Select(d => new DriverInfoDto
                 {
                     Id = d.Id,
-                    Name = d.Name // ajusta según tus propiedades
+                    Name = d.Name, // ajusta según tus propiedades
+                    Email = d.Email,
+                    Licence = d.Licence,
+                    Phone = d.Phone
                 }).ToList()
             });
         }

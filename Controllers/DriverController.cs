@@ -23,7 +23,7 @@ namespace ProyectoFinalTecWeb.Controllers
             [HttpGet]
             public async Task<IActionResult> GetAllDriveres()
             {
-                IEnumerable<Driver> items = await _service.GetAll();
+                IEnumerable<DriverDto> items = await _service.GetAll();
                 return Ok(items);
             }
 
@@ -32,8 +32,11 @@ namespace ProyectoFinalTecWeb.Controllers
             public async Task<IActionResult> GetOne(Guid id)
             {
                 var driver = await _service.GetOne(id);
+                if (driver == null) return NotFound();
                 return Ok(driver);
             }
+
+            
 
             // POST: api/driver
             [HttpPost]
@@ -60,16 +63,6 @@ namespace ProyectoFinalTecWeb.Controllers
                 await _service.DeleteDriver(id);
                 return NoContent();
             }
-
-
-            /*
-            [HttpPost("register")]
-            public async Task<IActionResult> Register([FromBody] RegisterDriverDto dto)
-            {
-                var id = await _service.RegisterAsync(dto);
-                return CreatedAtAction(nameof(Register), new { id }, null);
-            }
-            */
 
             // GET: api/driver/{driverId}/vehicles
             [HttpGet("{driverId:guid}/vehicles")]

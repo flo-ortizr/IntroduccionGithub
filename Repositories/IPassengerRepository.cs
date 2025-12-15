@@ -8,6 +8,7 @@ namespace ProyectoFinalTecWeb.Repositories
         Task<Passenger?> GetByIdWithTripsAsync(Guid id);
         Task<Passenger?> GetByRefreshToken(string refreshToken);
         Task<Passenger?> GetTripsAsync(Guid id);
+        Task<IEnumerable<Passenger>> GetAllWithTripsAsync();
         Task<bool> ExistsAsync(Guid id);
         Task<int> SaveChangesAsync();
 

@@ -53,5 +53,13 @@ namespace ProyectoFinalTecWeb.Controllers
             return Ok(trips);
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var trip = await _service.GetByIdAsync(id);
+            if (trip == null) return NotFound();
+            return Ok(trip);
+        }
+
     }
 }

@@ -7,8 +7,12 @@ namespace ProyectoFinalTecWeb.Services
     {
         Task<Guid> CreateAsync(CreateTripDto dto);
 
-        Task<Trip?> GetByIdAsync(Guid id);
-        Task<IEnumerable<Trip>> GetAllAsync();
+        Task<Trip?> GetByIdAsyncNormal(Guid id);
+        Task<TripDto?> GetByIdAsync(Guid id);
+
+        Task<IEnumerable<Trip>> GetAllAsyncNormal();
+        Task<IEnumerable<TripDto>> GetAllAsync();
+
 
         //Task<ViajePasajeroDto?> GetPasajeroAsync(int id);
     }

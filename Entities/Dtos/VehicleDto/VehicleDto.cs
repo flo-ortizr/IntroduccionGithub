@@ -32,5 +32,6 @@ namespace ProyectoFinalTecWeb.Entities.Dtos.VehicleDto
         public string Phone { get; set; }
         public string Role { get; set; } = "Driver";
         // NO incluir Vehicles aquí
+
     }
 }

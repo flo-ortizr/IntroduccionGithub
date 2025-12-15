@@ -16,22 +16,22 @@ namespace ProyectoFinalTecWeb.Controllers
             _service = service;
             _trips = trips;
         }
-
         // GET: api/passenger
         [HttpGet]
         public async Task<IActionResult> GetAllPassengers()
         {
-            IEnumerable<Passenger> items = await _service.GetAll();
+            IEnumerable<PassengerDto> items = await _service.GetAll();
             return Ok(items);
         }
-
         // GET: api/passenger/{id}
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetOne(Guid id)
         {
             var passenger = await _service.GetOne(id);
+            if (passenger == null) return NotFound();
             return Ok(passenger);
         }
+
 
         // POST: api/passenger
         [HttpPost]

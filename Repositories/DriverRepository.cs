@@ -24,10 +24,12 @@ namespace ProyectoFinalTecWeb.Repositories
         public Task<bool> ExistsAsync(Guid id) =>
             _ctx.Drivers.AnyAsync(s => s.Id == id);
 
+        
         public async Task<IEnumerable<Driver>> GetAll()
         {
             return await _ctx.Drivers
                 .Include(d => d.Vehicles)
+                    .ThenInclude(v => v.Model)
                 .Include(d => d.Trips)
                 .ToListAsync();
         }
@@ -40,7 +42,11 @@ namespace ProyectoFinalTecWeb.Repositories
 
         public async Task<Driver?> GetOne(Guid id)
         {
-            return await _ctx.Drivers.FirstOrDefaultAsync(x => x.Id == id);
+            return await _ctx.Drivers
+         .Include(d => d.Trips) // Incluir Trips
+         .Include(d => d.Vehicles) // Incluir Vehicles
+             .ThenInclude(v => v.Model) // Y el Model de cada Vehicle
+         .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Driver?> GetByIdWithTripsAsync(Guid id)

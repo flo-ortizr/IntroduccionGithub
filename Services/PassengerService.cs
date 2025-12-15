@@ -23,20 +23,69 @@ namespace ProyectoFinalTecWeb.Services
 
         public async Task DeletePassenger(Guid id)
         {
-            Passenger? pasajero = (await GetAll()).FirstOrDefault(h => h.Id == id);
+            Passenger? pasajero = await _pasajeros.GetOne(id);
             if (pasajero == null) return;
             await _pasajeros.Delete(pasajero);
+
         }
 
-        public async Task<IEnumerable<Passenger>> GetAll()
+        public async Task<IEnumerable<PassengerDto>> GetAll()
+        {
+            var passengers = await _pasajeros.GetAllWithTripsAsync();
+
+            return passengers.Select(p => new PassengerDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Phone = p.Phone,
+                Email = p.Email,
+                Role = p.Role,
+                Trips = p.Trips.Select(t => new TripSimpleDto
+                {
+                    Id = t.Id,
+                    Origin = t.Origin,
+                    Destiny = t.Destiny,
+                    Price = t.Price,
+                    StartDate = t.StartDate,
+                    EndDate = t.EndDate
+                }).ToList()
+            });
+        }
+
+        public async Task<PassengerDto> GetOne(Guid id)
+        {
+            var passenger = await _pasajeros.GetByIdWithTripsAsync(id);
+            if (passenger == null) return null;
+
+            return new PassengerDto
+            {
+                Id = passenger.Id,
+                Name = passenger.Name,
+                Phone = passenger.Phone,
+                Email = passenger.Email,
+                Role = passenger.Role,
+                Trips = passenger.Trips.Select(t => new TripSimpleDto
+                {
+                    Id = t.Id,
+                    Origin = t.Origin,
+                    Destiny = t.Destiny,
+                    Price = t.Price,
+                    StartDate = t.StartDate,
+                    EndDate = t.EndDate
+                }).ToList()
+            };
+        }
+        public async Task<IEnumerable<Passenger>> GetAllNormal()
         {
             return await _pasajeros.GetAll();
         }
 
-        public async Task<Passenger> GetOne(Guid id)
+        public async Task<Passenger> GetOneNormal(Guid id)
         {
             return await _pasajeros.GetOne(id);
         }
+
+
         
         public async Task<string> RegisterAsync(RegisterPassengerDto dto)
         {
@@ -52,7 +101,7 @@ namespace ProyectoFinalTecWeb.Services
         
         public async Task<Passenger> UpdatePassenger(UpdatePassengerDto dto, Guid id)
         {
-            Passenger? pasajero = await GetOne(id);
+            Passenger? pasajero = await GetOneNormal(id);
             if (pasajero == null) throw new Exception("Passenger doesnt exist.");
 
             pasajero.Name = dto.Name;

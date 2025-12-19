@@ -221,6 +221,16 @@ namespace ProyectoFinalTecWeb.Services
 
         public async Task<(bool ok, string? response)> ResetPassword(ResetPasswordDto dto)
         {
+            var driver = await _drivers.GetByEmailAddress(dto.Email);
+            if (driver != null)
+            {
+                return (true, null);
+            };
+            var passenger = await _passengers.GetByEmailAddress(dto.Email);
+            if (passenger != null)
+            {
+                return (true, null);
+            };
             return (false, null);
         }
 

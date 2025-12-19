@@ -199,7 +199,7 @@ namespace ProyectoFinalTecWeb.Services
             return passenger.Id.ToString();
         }
 
-        public async Task<string> ForgotPassword(ForgotPasswordDto dto)
+        public async Task<string?> ForgotPassword(ForgotPasswordDto dto)
         {
             var driver = await _drivers.GetByEmailAddress(dto.Email);
             if (driver != null)
@@ -216,8 +216,7 @@ namespace ProyectoFinalTecWeb.Services
                 return token.ToString();
             };
 
-            //Manejo de errores
-            return "Usuario no encontrado";
+            return null;
         }
 
         private (string token, int expiresInSeconds, string jti) GenerateJwtTokenD(Driver driver)

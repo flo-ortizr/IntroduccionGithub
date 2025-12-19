@@ -57,5 +57,7 @@ namespace ProyectoFinalTecWeb.Controllers
             if(token is null) return NotFound();
             return Ok(token);
         }
+
+        //POST: /auth/reset-password 
     }
 }

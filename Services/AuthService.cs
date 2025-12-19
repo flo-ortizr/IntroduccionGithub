@@ -201,7 +201,14 @@ namespace ProyectoFinalTecWeb.Services
 
         public async Task<string> ForgotPassword(ForgotPasswordDto dto)
         {
+            var driver = await _drivers.GetByEmailAddress(dto.Email);
+            if (driver != null)
+            {
+                var time = DateTime.Now.TimeOfDay;
+                var token = time.Hours * 60 + time.Minutes;
 
+            };
+            
         }
 
         private (string token, int expiresInSeconds, string jti) GenerateJwtTokenD(Driver driver)

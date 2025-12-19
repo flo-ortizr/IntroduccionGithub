@@ -50,6 +50,6 @@ namespace ProyectoFinalTecWeb.Controllers
         }
 
         //POST: api/auth/forgot-password
-
+        
     }
 }

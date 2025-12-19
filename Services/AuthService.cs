@@ -199,6 +199,11 @@ namespace ProyectoFinalTecWeb.Services
             return passenger.Id.ToString();
         }
 
+        public async Task<string> ForgotPassword(ForgotPasswordDto dto)
+        {
+
+        }
+
         private (string token, int expiresInSeconds, string jti) GenerateJwtTokenD(Driver driver)
         {
             var jwtSection = _configuration.GetSection("Jwt");

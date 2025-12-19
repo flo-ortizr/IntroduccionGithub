@@ -206,14 +206,18 @@ namespace ProyectoFinalTecWeb.Services
             {
                 var time = DateTime.Now.TimeOfDay;
                 var token = time.Hours * 60 + time.Minutes;
-
+                return token.ToString();
             };
             var passenger = await _passengers.GetByEmailAddress(dto.Email);
             if (passenger != null)
             {
                 var time = DateTime.Now.TimeOfDay;
                 var token = time.Hours * 60 + time.Minutes;
+                return token.ToString();
             };
+
+            //Manejo de errores
+            return "Usuario no encontrado";
         }
 
         private (string token, int expiresInSeconds, string jti) GenerateJwtTokenD(Driver driver)

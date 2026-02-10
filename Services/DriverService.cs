@@ -100,7 +100,7 @@ namespace ProyectoFinalTecWeb.Services
             return await _drivers.GetAll();
         }
 
-        public async Task<Driver> GetOneNormal(Guid id)
+        public async Task<Driver?> GetOneNormal(Guid id)
         {
             return await _drivers.GetOne(id);
         }

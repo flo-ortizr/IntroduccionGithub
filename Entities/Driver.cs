@@ -25,3 +25,4 @@ namespace ProyectoFinalTecWeb.Entities
         public string? CurrentJwtId { get; set; }
     }
 }
+//comentario probando git
